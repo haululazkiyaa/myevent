@@ -1,0 +1,37 @@
+<div class="col-sm-12">
+  <app-card [hidHeader]="true">
+    <h5 class="card-title m-0">
+      <span class="badge m-r-5 badge-primary">{{ data.length }}</span> Acara Tersedia 
+    </h5>
+  </app-card>
+</div>
+<div class="col-sm-12">
+  <p class="text-center" *ngIf="loading">Loading...</p>
+  <div class="card-columns">
+    <div class="card" *ngFor="let item of data; let i = index;">
+      <img class="card-img-top" src="{{ item[1].thumbnail }}" alt="Card image cap">
+      <div class="card-body">
+        <h5 class="card-title"><span class="badge m-r-5 badge-primary">{{ item[1].type }}</span> {{ item[1].title }}</h5>
+        <div class="mb-3">{{ item[1].date_schedule }} | {{ item[1].time_schedule }}</div>
+        <p class="card-text">{{ item[1].caption }}</p>
+        <button class="btn btn-outline-primary mr-2" data-toggle="modal" (click)="openDescription(i)">Detail</button>
+        <a class="btn btn-primary" href="{{ item[1].register_link }}">Daftar</a>
+      </div>
+    </div>
+</div>
+<app-ui-modal #modalDescription dialogClass="modal-dialog-centered" [dialogClass]="'modal-lg'" [containerClick]="false">
+  <div class="app-modal-header">
+    <h5 class="modal-title">Detail Acara</h5>
+    <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close" (click)="modalDescription.hide()"><span aria-hidden="true">&times;</span></button>
+  </div>
+  <div class="app-modal-body">
+    <div class="text-center mb-3">
+      <img width="350" src="{{ data.length == 0 ? '' : data[selected_item][1].thumbnail }}" alt="Card image cap">
+    </div>
+    <div #htmlDescription></div>
+  </div>
+  <div class="app-modal-footer">
+    <button type="button" class="btn btn-outline-primary mr-2" data-dismiss="modal" (click)="modalDescription.hide()">Kembali</button>
+    <a class="btn btn-primary" href="{{ data.length == 0 ? '' : data[selected_item][1].register_link }}">Daftar</a>
+  </div>
+</app-ui-modal>
